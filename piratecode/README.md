@@ -5,8 +5,9 @@ QR codes with no strings attached. Working name; rename freely.
 - **Deckhand (free):** no login, no signup. Make a code, style it, download it.
 - **Captain (paid):** everything free plus scan analytics and device routing.
 
-Next.js 16 (App Router) + Postgres. Lives in `piratecode/` inside the wecnal.com repo; the
-repo root `.vercelignore` keeps it out of the wecnal.com site.
+Next.js 16 (App Router) + Postgres. Lives in `piratecode/` inside the wecnal.com repo and deploys as its own Vercel
+project (Root Directory `piratecode`). Don't merge it to main as-is: the wecnal.com
+static site would then serve these source files under /piratecode/.
 
 ## How it works
 
