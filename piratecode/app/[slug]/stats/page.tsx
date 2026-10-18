@@ -82,7 +82,7 @@ export default async function StatsPage({ params, searchParams }: { params: Prom
         <p className="mono" style={{ wordBreak: "break-all", fontSize: 15 }}>
           {slug} → {unlocked.destination}
         </p>
-        <div className="row" style={{ marginTop: 14 }}>
+        <div className="stats-bar">
           <div className="seg" role="group" aria-label="Date range">
             {RANGES.map((r) => (
               <Link key={r} href={`/${slug}/stats?d=${r}`} aria-current={r === range}>
@@ -90,7 +90,6 @@ export default async function StatsPage({ params, searchParams }: { params: Prom
               </Link>
             ))}
           </div>
-          <span className="spacer" />
           <a className="btn btn-sm btn-cyan" href={`/${slug}/stats/csv?d=${range}`}>
             Export CSV
           </a>

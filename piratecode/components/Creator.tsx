@@ -494,7 +494,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
 
           {dynamic && !created && (
             <button type="button" className="btn btn-primary btn-lg btn-block" disabled={busy || !finalUrl} onClick={forge}>
-              {busy ? "Hoisting the colors…" : "Hoist my code ⚑"}
+              {busy ? "Hoisting the colors…" : "Hoist my code\u00a0⚑"}
             </button>
           )}
 

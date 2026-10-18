@@ -6,7 +6,9 @@ export function CompassRose() {
     return { x1: 100 + Math.cos(a) * r1, y1: 100 + Math.sin(a) * r1, x2: 100 + Math.cos(a) * 96, y2: 100 + Math.sin(a) * 96 };
   });
   return (
-    <svg className="compass-rose" viewBox="0 0 200 200" aria-hidden="true">
+    // The wrapper clips the rose to the viewport; a fixed element poking off screen makes phones scroll sideways.
+    <div className="compass-wrap" aria-hidden="true">
+    <svg className="compass-rose" viewBox="0 0 200 200">
       <g fill="none" stroke="#14101f" strokeWidth="2">
         <circle cx="100" cy="100" r="96" />
         <circle cx="100" cy="100" r="80" strokeDasharray="4 5" />
@@ -24,5 +26,6 @@ export function CompassRose() {
         N
       </text>
     </svg>
+    </div>
   );
 }

@@ -6,7 +6,7 @@ const fmt = new Intl.NumberFormat("en-US");
 export function DailyBars({ days }: { days: { day: string; count: number }[] }) {
   const W = 720;
   const H = 220;
-  const pad = { l: 34, r: 6, t: 12, b: 26 };
+  const pad = { l: 46, r: 6, t: 12, b: 30 };
   const max = Math.max(1, ...days.map((d) => d.count));
   const nice = max <= 4 ? 4 : Math.ceil(max / 4) * 4;
   const bw = (W - pad.l - pad.r) / days.length;

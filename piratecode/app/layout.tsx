@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo_Black, Pirata_One, Space_Grotesk, Space_Mono } from "next/font/google";
 import Link from "next/link";
 import { CompassRose } from "@/components/CompassRose";
+import { ChestIcon } from "@/components/PirateIcons";
 import { Logo } from "@/components/Logo";
 import { store } from "@/lib/store";
 import "./globals.css";
@@ -35,12 +36,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </span>
             </Link>
             <nav className="nav">
-              <Link href="/chest">My codes</Link>
+              <Link href="/chest" className="nav-chest" aria-label="My codes">
+                <ChestIcon size={26} />
+                <span className="hide-xs">My codes</span>
+              </Link>
               <Link href="/pro" className="hide-sm">
                 Pricing
               </Link>
-              <Link href="/" className="btn btn-sm btn-primary">
-                New code
+              <Link href="/" className="btn btn-sm btn-primary nav-new">
+                New<span className="hide-xs">&nbsp;code</span>
               </Link>
             </nav>
           </div>
