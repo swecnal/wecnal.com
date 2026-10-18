@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CoinIcon, SkullIcon } from "@/components/PirateIcons";
 import { PLANS, proBetaOpen } from "@/lib/plans";
 
 export const metadata: Metadata = { title: "Pricing" };
@@ -18,6 +19,7 @@ export default async function Pro({ searchParams }: { searchParams: Promise<{ co
   return (
     <div className="wrap">
       <div className="page-head">
+        <p className="kicker">Join the crew</p>
         <h1>Pick your rank</h1>
         <p>Free does almost everything. Captain adds the numbers.</p>
       </div>
@@ -29,9 +31,19 @@ export default async function Pro({ searchParams }: { searchParams: Promise<{ co
       )}
 
       <div className="plans">
-        <div className="card plan">
-          <span className="badge badge-free">FREE</span>
-          <h2 style={{ marginTop: 10 }}>{PLANS.free.name}</h2>
+        <div className="card plan parchment">
+          <div className="wanted">
+            <div className="w">Wanted</div>
+            <div className="sub">FREE OR ALIVE</div>
+          </div>
+          <div className="poster-head">
+            <SkullIcon size={56} />
+            <div>
+              <span className="badge badge-free">FREE</span>
+              <h2 style={{ marginTop: 6 }}>{PLANS.free.name}</h2>
+            </div>
+          </div>
+          <div className="reward">REWARD</div>
           <div className="price">{PLANS.free.price}</div>
           <ul>
             {PLANS.free.features.map((f) => (
@@ -43,8 +55,18 @@ export default async function Pro({ searchParams }: { searchParams: Promise<{ co
           </Link>
         </div>
         <div className="card plan plan-pro">
-          <span className="badge badge-pro">PRO</span>
-          <h2 style={{ marginTop: 10 }}>{PLANS.pro.name}</h2>
+          <div className="wanted">
+            <div className="w">Wanted</div>
+            <div className="sub">DEAD OR ALIVE</div>
+          </div>
+          <div className="poster-head">
+            <CoinIcon size={56} />
+            <div>
+              <span className="badge badge-pro">PRO</span>
+              <h2 style={{ marginTop: 6 }}>{PLANS.pro.name}</h2>
+            </div>
+          </div>
+          <div className="reward">REWARD</div>
           <div className="price">
             {beta ? (
               <>
@@ -68,7 +90,8 @@ export default async function Pro({ searchParams }: { searchParams: Promise<{ co
         </div>
       </div>
 
-      <h2 className="section-title">Questions</h2>
+      <p className="kicker" style={{ marginTop: 56 }}>Parley</p>
+      <h2 className="section-title" style={{ marginTop: 0 }}>Questions</h2>
       <div className="stack" style={{ marginTop: 18 }}>
         {FAQ.map(([q, a]) => (
           <details key={q} className="panel">

@@ -8,7 +8,8 @@ export default async function Report({ searchParams }: { searchParams: Promise<{
   return (
     <div className="wrap narrow">
       <div className="page-head">
-        <h1>Report a code</h1>
+        <p className="kicker">Man the cannons</p>
+        <h1>Report a scallywag</h1>
         <p>Scanned something shady? Tell us and we&apos;ll make it walk the plank.</p>
       </div>
       <ReportForm initial={c ?? ""} />

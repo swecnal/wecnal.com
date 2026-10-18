@@ -45,14 +45,14 @@ export async function unlockAction(_prev: FormState, form: FormData): Promise<Fo
 
   if (code.lockedUntil && code.lockedUntil.getTime() > Date.now()) {
     const mins = Math.ceil((code.lockedUntil.getTime() - Date.now()) / 60_000);
-    return { error: `Too many wrong guesses. This chest is sealed for ${mins} more minute${mins === 1 ? "" : "s"}.` };
+    return { error: `Too many wrong guesses. This chest is sealed for ${mins} more minute${mins === 1 ? "" : "s"}, matey.` };
   }
 
   if (!(await verifyPassphrase(passphrase, code.passHash))) {
     const attempts = code.failedAttempts + 1;
     if (attempts >= MAX_ATTEMPTS) {
       await store.updateCode(slug, { failedAttempts: 0, lockedUntil: new Date(Date.now() + LOCK_MINUTES * 60_000) });
-      return { error: `Wrong passphrase. Sealed for ${LOCK_MINUTES} minutes after ${MAX_ATTEMPTS} misses.` };
+      return { error: `Wrong passphrase. The chest is sealed for ${LOCK_MINUTES} minutes after ${MAX_ATTEMPTS} misses.` };
     }
     await store.updateCode(slug, { failedAttempts: attempts });
     const left = MAX_ATTEMPTS - attempts;
@@ -126,7 +126,7 @@ export async function updateAction(_prev: FormState, form: FormData): Promise<Fo
     expiredMessage: String(form.get("expiredMessage") ?? "").trim().slice(0, 280) || null,
     style,
   });
-  return { ok: true, message: "Saved. Your code now points to the new destination." };
+  return { ok: true, message: "Aye aye! Course changed. Yer code now points to the new destination." };
 }
 
 export async function changePassphraseAction(_prev: FormState, form: FormData): Promise<FormState> {
@@ -140,7 +140,7 @@ export async function changePassphraseAction(_prev: FormState, form: FormData): 
   const passHash = await hashPassphrase(next);
   await store.updateCode(slug, { passHash });
   await setSession(slug, passHash);
-  return { ok: true, message: "New passphrase set. Every other open session was logged out." };
+  return { ok: true, message: "New passphrase set. Every other open session walked the plank (logged out)." };
 }
 
 export async function upgradeAction(form: FormData) {
@@ -180,5 +180,5 @@ export async function reportAction(_prev: FormState, form: FormData): Promise<Fo
     details: String(form.get("details") ?? "").trim().slice(0, 2000) || null,
     reporterIp: ip,
   });
-  return { ok: true, message: "Thanks. A human will look at it and sink it if it's bad." };
+  return { ok: true, message: "Thanks, sailor. A human will inspect it and make it walk the plank if it's bad." };
 }

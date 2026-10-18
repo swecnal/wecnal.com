@@ -1,12 +1,15 @@
 import Link from "next/link";
 
-export function Problem({ emoji, title, children }: { emoji: string; title: string; children: React.ReactNode }) {
+export function Problem({ icon, kicker, title, children }: { icon: React.ReactNode; kicker?: string; title: string; children: React.ReactNode }) {
   return (
     <div className="wrap narrow" style={{ paddingTop: 48 }}>
-      <div className="card stack center">
-        <div className="big-emoji" aria-hidden="true">
-          {emoji}
-        </div>
+      <div className="card parchment stack center">
+        <div className="problem-icon">{icon}</div>
+        {kicker && (
+          <p className="kicker" style={{ margin: 0 }}>
+            {kicker}
+          </p>
+        )}
         <h1 style={{ fontSize: 34 }}>{title}</h1>
         <div className="muted">{children}</div>
         <div>

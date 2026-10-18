@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ChestIcon } from "./PirateIcons";
 import { type ChestEntry, readChest, removeFromChest } from "./chest";
 import { CopyButton, downloadPng, downloadSvg, QrView } from "./qr-client";
 
@@ -15,16 +16,16 @@ export function ChestList() {
   if (entries.length === 0) {
     return (
       <div className="card stack center">
-        <div className="big-emoji" aria-hidden="true">
-          🗝️
+        <div className="problem-icon" style={{ margin: "0 auto" }}>
+          <ChestIcon size={64} />
         </div>
-        <h2>Your chest is empty</h2>
+        <h2>Yer chest is empty</h2>
         <p className="muted" style={{ margin: 0 }}>
           Codes you create on this device show up here.
         </p>
         <div>
           <Link href="/" className="btn btn-primary">
-            Make your first code
+            Bury your first treasure
           </Link>
         </div>
       </div>
@@ -69,12 +70,12 @@ export function ChestList() {
                   className="small"
                   style={{ background: "none", border: 0, padding: 0, textDecoration: "underline", cursor: "pointer", color: "var(--muted)", font: "inherit" }}
                   onClick={() => {
-                    if (!confirm("Remove from this list? The code itself keeps working.")) return;
+                    if (!confirm("Toss this off your list? The code itself keeps working.")) return;
                     removeFromChest(e.createdAt);
                     setEntries(readChest());
                   }}
                 >
-                  Remove from list
+                  Toss overboard
                 </button>
               </div>
             </div>

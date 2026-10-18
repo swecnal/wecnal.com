@@ -7,6 +7,7 @@ import type { QrStyle } from "@/lib/qr";
 import type { CodeStatus } from "@/lib/status";
 import { updateChestStyle } from "./chest";
 import { DownloadBar, QrView, ShortLink } from "./qr-client";
+import { BombIcon, ChestIcon, LogbookIcon } from "./PirateIcons";
 import { StyleStudio } from "./StyleStudio";
 
 type EditableCode = {
@@ -23,10 +24,10 @@ type EditableCode = {
 };
 
 const STATUS_TEXT: Record<CodeStatus, string> = {
-  live: "● Live",
-  paused: "❚❚ Paused",
-  expired: "✕ Expired",
-  capped: "✕ Scan cap reached",
+  live: "● Under sail",
+  paused: "⚓ At anchor",
+  expired: "✕ Sailed off (expired)",
+  capped: "✕ Out of scans",
 };
 
 function toLocalInput(iso: string | null) {
@@ -94,8 +95,8 @@ export function EditForm({ slug, shortUrl, code, status, proBeta }: { slug: stri
           <label className="check">
             <input type="checkbox" name="paused" defaultChecked={code.paused} />
             <span>
-              Pause this code
-              <span className="hint">Scans land on a “temporarily docked” page until you switch it back on.</span>
+              Drop anchor (pause this code)
+              <span className="hint">Scans land on a “dropped anchor” page until you set sail again.</span>
             </span>
           </label>
 
@@ -117,7 +118,7 @@ export function EditForm({ slug, shortUrl, code, status, proBeta }: { slug: stri
           {state?.error && <div className="error">{state.error}</div>}
           {state?.ok && <div className="success">{state.message}</div>}
           <button className="btn btn-primary btn-lg btn-block" disabled={pending}>
-            {pending ? "Saving…" : "Save changes"}
+            {pending ? "Adjusting course…" : "Save changes"}
           </button>
         </form>
       </div>
@@ -128,7 +129,15 @@ export function EditForm({ slug, shortUrl, code, status, proBeta }: { slug: stri
         {!isPro && (
           <form action={upgradeAction} className="card stack" style={{ background: "#ffe8f3" }}>
             <input type="hidden" name="slug" value={slug} />
-            <h2>Want the numbers?</h2>
+            <div className="row" style={{ gap: 12 }}>
+              <LogbookIcon size={44} />
+              <div>
+                <p className="kicker" style={{ margin: 0 }}>
+                  Promotion
+                </p>
+                <h2 style={{ margin: 0 }}>Make it a Captain</h2>
+              </div>
+            </div>
             <p className="muted" style={{ margin: 0 }}>
               Upgrade this code to Captain for scan analytics and iPhone/Android routing. The printed code stays exactly the same.
             </p>
@@ -137,7 +146,9 @@ export function EditForm({ slug, shortUrl, code, status, proBeta }: { slug: stri
         )}
 
         <form action={passAction} className="card stack">
-          <h2>Change passphrase</h2>
+          <h2 className="row" style={{ gap: 10 }}>
+            <ChestIcon size={34} /> Change the lock
+          </h2>
           <input type="hidden" name="slug" value={slug} />
           <div className="grid2">
             <label className="field">
@@ -160,15 +171,17 @@ export function EditForm({ slug, shortUrl, code, status, proBeta }: { slug: stri
         </form>
 
         <form action={delAction} className="card stack" style={{ borderStyle: "dashed" }}>
-          <h2>Scuttle this code</h2>
+          <h2 className="row" style={{ gap: 10 }}>
+            <BombIcon size={34} /> Scuttle this code
+          </h2>
           <p className="muted" style={{ margin: 0 }}>
-            Deletes the code and all its stats forever. Printed copies will stop working. Type <code>{slug}</code> to confirm.
+            Sends the code and all its stats to Davy Jones&apos; locker forever. Printed copies will stop working. Type <code>{slug}</code> to confirm.
           </p>
           <input type="hidden" name="slug" value={slug} />
           <input name="confirm" type="text" autoComplete="off" placeholder={slug} />
           {delState?.error && <div className="error">{delState.error}</div>}
           <button className="btn btn-danger" disabled={delPending}>
-            Scuttle it
+            Scuttle the ship
           </button>
         </form>
       </div>
@@ -182,7 +195,7 @@ export function EditForm({ slug, shortUrl, code, status, proBeta }: { slug: stri
           <DownloadBar text={shortUrl} style={style} name={`piratecode-${slug}`} />
           <form action={lockAction}>
             <input type="hidden" name="slug" value={slug} />
-            <button className="btn btn-white btn-block">Lock it back up</button>
+            <button className="btn btn-white btn-block">Lock the chest</button>
           </form>
         </section>
       </aside>

@@ -16,6 +16,8 @@ export type QrStyle = {
   margin: number;
   frame: boolean;
   frameLabel: string;
+  /** Small Jolly Rogers on either side of the frame label. */
+  frameSkull: boolean;
   frameColor: string;
   frameText: string;
 };
@@ -31,17 +33,20 @@ export const DEFAULT_STYLE: QrStyle = {
   margin: 3,
   frame: false,
   frameLabel: "SCAN ME",
+  frameSkull: false,
   frameColor: "#14101f",
   frameText: "#ffffff",
 };
 
 export const PRESETS: { name: string; style: Partial<QrStyle> }[] = [
-  { name: "Ink", style: { fg: "#14101f", fg2: null, eye: "#14101f", bg: "#ffffff" } },
+  { name: "Black Pearl", style: { fg: "#14101f", fg2: null, eye: "#14101f", bg: "#ffffff" } },
+  { name: "Jolly Roger", style: { fg: "#14101f", fg2: null, eye: "#c81e1e", bg: "#f6ecd6" } },
   { name: "Sunset", style: { fg: "#d9480f", fg2: "#6b21d6", eye: "#14101f", bg: "#ffffff" } },
-  { name: "Miami", style: { fg: "#6b21d6", fg2: "#00897b", eye: "#d6197a", bg: "#ffffff" } },
-  { name: "Arcade", style: { fg: "#1d1340", fg2: null, eye: "#d6197a", bg: "#fff3d6" } },
-  { name: "Tidal", style: { fg: "#00695f", fg2: "#1d4fd8", eye: "#14101f", bg: "#effffb" } },
-  { name: "Grape", style: { fg: "#4c1d95", fg2: null, eye: "#ea580c", bg: "#fdf4ff" } },
+  { name: "Port Royal", style: { fg: "#6b21d6", fg2: "#00897b", eye: "#d6197a", bg: "#ffffff" } },
+  { name: "Tortuga", style: { fg: "#1d1340", fg2: null, eye: "#d6197a", bg: "#fff3d6" } },
+  { name: "Davy Jones", style: { fg: "#00695f", fg2: "#1d4fd8", eye: "#14101f", bg: "#effffb" } },
+  { name: "Kraken", style: { fg: "#4c1d95", fg2: null, eye: "#ea580c", bg: "#fdf4ff" } },
+  { name: "Doubloon", style: { fg: "#5c3200", fg2: "#b45309", eye: "#14101f", bg: "#fff7e0" } },
 ];
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -64,6 +69,7 @@ export function sanitizeStyle(input: unknown): QrStyle {
     margin: typeof s.margin === "number" ? Math.max(0, Math.min(8, Math.round(s.margin))) : d.margin,
     frame: s.frame === true,
     frameLabel: typeof s.frameLabel === "string" ? s.frameLabel.slice(0, 24) : d.frameLabel,
+    frameSkull: s.frameSkull === true,
     frameColor: color(s.frameColor, d.frameColor),
     frameText: color(s.frameText, d.frameText),
   };
@@ -215,13 +221,30 @@ export function renderQrSvg(text: string, rawStyle: QrStyle): string {
   const band = 6;
   const w = size + pad * 2;
   const h = size + pad * 2 + band;
-  const label = escapeXml(style.frameLabel.slice(0, 24) || "SCAN ME");
-  const fontSize = Math.min(3.6, (w - 4) / Math.max(4, label.length * 0.68));
+  const raw = style.frameLabel.slice(0, 24) || "SCAN ME";
+  const label = escapeXml(raw);
+  const cy = pad + size + (pad + band) / 2;
+  const skull = 3.8;
+  const room = style.frameSkull ? w - 2 * (1.4 + skull + 1) : w - 4;
+  const fontSize = Math.min(3.6, room / Math.max(4, raw.length * (style.frameSkull ? 0.82 : 0.68)));
+  const skulls = style.frameSkull
+    ? [1.4, w - 1.4 - skull]
+        .map(
+          (x) =>
+            `<g transform="translate(${x} ${cy - skull / 2}) scale(${skull / 10})">` +
+            `<path d="M5 .6C2.4.6.8 2.4.8 4.7c0 1.4.7 2.4 1.7 3V9.4h5V7.7c1-.6 1.7-1.6 1.7-3C9.2 2.4 7.6.6 5 .6Z" fill="${style.frameText}"/>` +
+            `<rect x="2.4" y="3.7" width="2" height="2" fill="${style.frameColor}"/>` +
+            `<rect x="5.6" y="3.7" width="2" height="2" fill="${style.frameColor}"/>` +
+            `<path d="M5 6.2 4.4 7.3h1.2Z" fill="${style.frameColor}"/></g>`,
+        )
+        .join("")
+    : "";
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w * 10}" height="${h * 10}">` +
     `<rect width="${w}" height="${h}" rx="1.2" fill="${style.frameColor}"/>` +
     `<g transform="translate(${pad} ${pad})">${code}</g>` +
-    `<text x="${w / 2}" y="${pad + size + (pad + band) / 2}" dominant-baseline="central" text-anchor="middle" ` +
+    skulls +
+    `<text x="${w / 2}" y="${cy}" dominant-baseline="central" text-anchor="middle" ` +
     `font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-weight="900" font-size="${fontSize}" ` +
     `letter-spacing="0.15" fill="${style.frameText}">${label}</text></svg>`
   );

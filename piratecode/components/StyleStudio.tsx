@@ -1,5 +1,6 @@
 "use client";
 
+import { AnchorIcon, FlagIcon } from "./PirateIcons";
 import { DEFAULT_STYLE, type QrStyle, PRESETS, scanWarnings } from "@/lib/qr";
 
 type Props = { style: QrStyle; onChange: (s: QrStyle) => void };
@@ -24,7 +25,9 @@ export function StyleStudio({ style, onChange }: Props) {
   return (
     <>
       <details className="panel" open>
-        <summary>Style studio</summary>
+        <summary>
+          <FlagIcon size={26} /> Fly your colors
+        </summary>
         <div className="panel-body">
           <div className="presets" role="group" aria-label="Color presets">
             {PRESETS.map((p) => (
@@ -92,7 +95,9 @@ export function StyleStudio({ style, onChange }: Props) {
       </details>
 
       <details className="panel">
-        <summary>Frame &amp; call to action</summary>
+        <summary>
+          <AnchorIcon size={26} /> Frame &amp; call to action
+        </summary>
         <div className="panel-body">
           <label className="check">
             <input type="checkbox" checked={style.frame} onChange={(e) => set({ frame: e.target.checked })} />
@@ -108,12 +113,19 @@ export function StyleStudio({ style, onChange }: Props) {
                 <input type="text" maxLength={24} value={style.frameLabel} onChange={(e) => set({ frameLabel: e.target.value })} />
               </label>
               <div className="row">
-                {["SCAN ME", "MENU", "WIFI", "TICKETS", "PAY HERE", "FOLLOW US"].map((l) => (
+                {["SCAN ME", "AHOY! SCAN ME", "X MARKS THE SPOT", "MENU", "WIFI", "PAY HERE", "FOLLOW US"].map((l) => (
                   <button key={l} type="button" className="btn btn-sm btn-white" onClick={() => set({ frameLabel: l })}>
                     {l}
                   </button>
                 ))}
               </div>
+              <label className="check">
+                <input type="checkbox" checked={style.frameSkull} onChange={(e) => set({ frameSkull: e.target.checked })} />
+                <span>
+                  Fly the Jolly Roger
+                  <span className="hint">Little skulls on either side of the label.</span>
+                </span>
+              </label>
               <div className="colors">
                 <label>
                   Frame
@@ -127,7 +139,7 @@ export function StyleStudio({ style, onChange }: Props) {
             </>
           )}
           <button type="button" className="btn btn-sm btn-white" onClick={() => onChange(DEFAULT_STYLE)}>
-            Reset all styling
+            Scrub the deck (reset styling)
           </button>
         </div>
       </details>

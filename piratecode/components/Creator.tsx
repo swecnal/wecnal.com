@@ -6,6 +6,7 @@ import { DEFAULT_STYLE, emailPayload, type QrStyle, smsPayload, vcardPayload, wi
 import { applyUtm, normalizeDestination, type Utm } from "@/lib/urls";
 import { addToChest, updateChestStyle } from "./chest";
 import { DownloadBar, QrView, ShortLink } from "./qr-client";
+import { BombIcon, ChestIcon, LogbookIcon, SpyglassIcon } from "./PirateIcons";
 import { StyleStudio } from "./StyleStudio";
 
 type Kind = "url" | "text" | "wifi" | "contact" | "email" | "sms";
@@ -208,7 +209,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
   return (
     <div className="studio">
       <div className="main-col stack" style={{ gap: 18 }}>
-        {scuttled && <div className="success">Code {scuttled} was scuttled. It no longer works.</div>}
+        {scuttled && <div className="success">Code {scuttled} was scuttled and sent to Davy Jones&apos; locker. It no longer works.</div>}
 
         <section className="card">
           <div className="tabs" role="tablist" aria-label="What should the code do?">
@@ -349,7 +350,9 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
         {kind === "url" && !locked && (
           <div>
             <details className="panel">
-              <summary>Name &amp; campaign tags</summary>
+              <summary>
+                <SpyglassIcon size={26} /> Name &amp; campaign tags
+              </summary>
               <div className="panel-body">
                 <label className="field">
                   Nickname <span className="hint">Only for you, shows up in My codes.</span>
@@ -380,7 +383,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
               <>
                 <details className="panel" open={lock}>
                   <summary>
-                    Lock &amp; edit later <span className="badge badge-free">FREE</span>
+                    <ChestIcon size={26} /> Lock &amp; edit later <span className="badge badge-free">FREE</span>
                   </summary>
                   <div className="panel-body">
                     <label className="check">
@@ -421,7 +424,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
 
                 <details className="panel" style={{ marginTop: 14 }}>
                   <summary>
-                    Self-destruct <span className="badge badge-free">FREE</span>
+                    <BombIcon size={26} /> Self-destruct <span className="badge badge-free">FREE</span>
                   </summary>
                   <div className="panel-body">
                     <div className="grid2">
@@ -443,7 +446,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
 
                 <details className="panel" style={{ marginTop: 14 }} open={pro}>
                   <summary>
-                    Captain analytics <span className="badge badge-pro">PRO</span>
+                    <LogbookIcon size={26} /> Captain&apos;s log <span className="badge badge-pro">PRO</span>
                   </summary>
                   <div className="panel-body">
                     <label className="check">
@@ -482,7 +485,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
         <section className="card stack">
           <div className="preview">
             {!ready && <span className="ribbon">PREVIEW</span>}
-            {payload ? <QrView text={payload} style={style} /> : <p className="muted center">Fill in the details and your code shows up here.</p>}
+            {payload ? <QrView text={payload} style={style} /> : <p className="muted center">Fill in the details and yer code surfaces here.</p>}
           </div>
 
           <input className="honeypot" tabIndex={-1} autoComplete="off" aria-hidden="true" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
@@ -491,15 +494,15 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
 
           {dynamic && !created && (
             <button type="button" className="btn btn-primary btn-lg btn-block" disabled={busy || !finalUrl} onClick={forge}>
-              {busy ? "Forging…" : "Forge my code →"}
+              {busy ? "Hoisting the colors…" : "Hoist my code ⚑"}
             </button>
           )}
 
           {created && (
             <div className="stack">
               <div className="success">
-                Your code is live!{" "}
-                {created.locked ? "Edit it any time at the link below." : "Saved to My codes on this device."}
+                Ahoy! Yer code is live.{" "}
+                {created.locked ? "Steer it somewhere new any time from the edit page." : "Stashed in My codes on this device."}
               </div>
               {!created.persistent && <div className="warn">Demo mode: this server has no database, so this code may disappear.</div>}
               <ShortLink url={created.shortUrl} />
@@ -527,7 +530,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
 
           {!dynamic && ready && (
             <button type="button" className="btn btn-white btn-block" onClick={saveStatic}>
-              Save to My codes
+              Stash in My codes
             </button>
           )}
           {created && (
@@ -536,7 +539,7 @@ export function Creator({ proBeta, baseUrl, scuttled }: { proBeta: boolean; base
             </button>
           )}
           <p className="small muted center" style={{ margin: 0 }}>
-            <Link href="/chest">My codes</Link> lives on this device. No account, ever.
+            Yer <Link href="/chest">treasure chest</Link> lives on this device. No account, ever.
           </p>
         </section>
       </aside>

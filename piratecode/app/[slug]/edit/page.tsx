@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Problem } from "@/components/Problem";
+import { ChestIcon, IslandIcon } from "@/components/PirateIcons";
 import { EditForm } from "@/components/EditForm";
 import { UnlockForm } from "@/components/UnlockForm";
 import { proBetaOpen } from "@/lib/plans";
@@ -18,7 +19,7 @@ export default async function EditPage({ params }: { params: Promise<{ slug: str
 
   if (!code) {
     return (
-      <Problem emoji="🏝️" title="No code here">
+      <Problem icon={<IslandIcon size={64} />} kicker="Davy Jones' locker" title="No code here">
         We couldn't find a code called <code>{slug}</code>. Double check the link.
       </Problem>
     );
@@ -26,7 +27,7 @@ export default async function EditPage({ params }: { params: Promise<{ slug: str
 
   if (!code.passHash) {
     return (
-      <Problem emoji="🔓" title="This chest has no lock">
+      <Problem icon={<ChestIcon size={64} />} kicker="Arr, no key" title="This chest has no lock">
         <p>
           The code <code>{slug}</code> was made without a passphrase, so nobody can edit it. That's a feature: nobody can
           hijack it either.
@@ -42,8 +43,9 @@ export default async function EditPage({ params }: { params: Promise<{ slug: str
   return (
     <div className="wrap">
       <div className="page-head">
+        <p className="kicker">Captain&apos;s quarters</p>
         <h1>Edit {slug}</h1>
-        <p>Change where your code points without reprinting it.</p>
+        <p>Change course without reprinting a single code.</p>
       </div>
       {unlocked ? (
         <EditForm
