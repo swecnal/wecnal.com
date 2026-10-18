@@ -72,3 +72,15 @@ Environment variables: see `.env.example`. `SESSION_SECRET` must be set in produ
 Create a project from this repo with **Root Directory = `piratecode`**, framework Next.js,
 then set `DATABASE_URL`, `SESSION_SECRET`, and (once there's a domain) `NEXT_PUBLIC_BASE_URL`.
 Use the Supabase transaction pooler URL (port 6543) on serverless.
+
+## Current deployment
+
+- **Live:** https://piratecodes.vercel.app (Vercel project `piratecode`, team swecnals-projects,
+  Root Directory `piratecode`, region iad1). Pushes to the repo auto-deploy.
+- **Database:** schema `piratecode` inside the existing `aballforall` Supabase project
+  (us-east-1), accessed by a dedicated `piratecode` Postgres role that owns only that schema.
+  No other tables are touched. Connection is the transaction pooler
+  (`aws-1-us-east-1.pooler.supabase.com:6543`); the credentials live only in the Vercel env vars.
+- **Moving it out later:** `pg_dump --schema=piratecode`, restore into a new database, run
+  `npm run db:schema` there if starting fresh, and swap `DATABASE_URL`.
+- **Health check:** `/api/health` returns `{"ok":true,"database":true}` when the DB is reachable.
